@@ -1,48 +1,56 @@
 package main.java.FowlerMovieSystem;
 
+import main.java.FowlerMovieSystem.Interceptor.ConsoleLoggingInterceptor;
+
 public class Movie {
 
-    public static final int CHILDREN = 2;
     public static final int REGULAR = 0;
     public static final int NEW_RELEASE = 1;
-    Price price;
-    private final String title;
+    public static final int CHILDREN = 2;
 
-    public Movie(String title, int priceCode) {
-        this.title = title;
+    private final String _title;
+    private final ConsoleLoggingInterceptor _loggingInterceptor;
+    private Price _price;
+
+    public Movie(String title, int priceCode, ConsoleLoggingInterceptor loggingInterceptor) {
+        _title = title;
+        _loggingInterceptor = loggingInterceptor;
         setPriceCode(priceCode);
     }
 
     public String getTitle() {
-        return title;
+        return _title;
     }
 
-    private int getPriceCode() {
-        return price.getPriceCode();
+    public int getPriceCode() {
+        return _price.getPriceCode();
     }
 
-    private void setPriceCode(int priceCode) {
-        switch (priceCode) {
-            case CHILDREN:
-                price = new ChildrensPrice();
-                break;
-            case NEW_RELEASE:
-                price = new NewReleasePrice();
-                break;
-            case REGULAR:
-                price = new RegularPrice();
-                break;
-            default:
-                throw new IllegalArgumentException("invalid price code");
+    public void setPriceCode(int arg) {
+        log("Calling setPriceCode on Movie from Movie: " + _title + " with arg: " + arg + "");
+        switch (arg) {
+            case REGULAR -> _price = new RegularPrice();
+            case CHILDREN -> _price = new ChildrensPrice();
+            case NEW_RELEASE -> _price = new NewReleasePrice();
+            default -> throw new IllegalArgumentException("Incorrect Price Code");
         }
     }
 
+
+
     public double getCharge(int daysRented) {
-        return price.getCharge(daysRented);
+        log("Calling getCharge on Movie from Movie: " + _title + " with arg: " + daysRented + "");
+        return _price.getCharge(daysRented);
     }
 
     public int getFrequentRenterPoints(int daysRented) {
-        return price.getFrequentRenterPoints(daysRented);
+        log("Calling getFrequentRenterPoints on Movie from Movie: " + _title + " with arg: " + daysRented + "");
+        return _price.getFrequentRenterPoints(daysRented);
     }
 
+    private void log(String message) {
+        if (_loggingInterceptor != null) {
+            _loggingInterceptor.log(message);
+        }
+    }
 }
