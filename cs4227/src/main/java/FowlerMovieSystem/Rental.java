@@ -1,8 +1,9 @@
 package main.java.FowlerMovieSystem;
+
 public class Rental {
 
     Movie movie;
-    private int daysRented;
+    private final int daysRented;
 
     public Rental(Movie movie, int daysRented) {
         this.movie = movie;

@@ -5,9 +5,8 @@ public class Movie {
     public static final int CHILDREN = 2;
     public static final int REGULAR = 0;
     public static final int NEW_RELEASE = 1;
-
-    private String title;
     Price price;
+    private final String title;
 
     public Movie(String title, int priceCode) {
         this.title = title;
@@ -16,6 +15,10 @@ public class Movie {
 
     public String getTitle() {
         return title;
+    }
+
+    private int getPriceCode() {
+        return price.getPriceCode();
     }
 
     private void setPriceCode(int priceCode) {
@@ -32,10 +35,6 @@ public class Movie {
             default:
                 throw new IllegalArgumentException("invalid price code");
         }
-    }
-
-    private int getPriceCode() {
-        return price.getPriceCode();
     }
 
     public double getCharge(int daysRented) {

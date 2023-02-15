@@ -1,56 +1,92 @@
 package main.java.FowlerMovieSystem;
 
+import main.java.FowlerMovieSystem.Interceptor.Interceptor;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
+    private final String _name;
+    private final List<Rental> _rentals = new ArrayList<>();
+    private final Interceptor _interceptor;
 
-    private String name;
-    private List<Rental> rentals = new ArrayList<Rental>();
+    public Customer(String name, Interceptor interceptor) {
+        _name = name;
+        _interceptor = interceptor;
+    }
 
-    public Customer(String name) {
-        this.name = name;
+    public void addRental(Rental arg) {
+        _interceptor.before("addRental in Customer");
+        _rentals.add(arg);
+        _interceptor.after("addRental in Customer");
     }
 
     public String getName() {
-        return name;
-    }
-
-    public void addRental(Rental rental) {
-        rentals.add(rental);
+        return _name;
     }
 
     public String statement() {
-        String result = "Rental record for " + getName() + "\n";
-        for (Rental rental : rentals)
-            result += "\t" + rental.getMovie().getTitle() + "\t" + String.valueOf(rental.getCharge()) + "\n";
-        result += "Amount owed is " + String.valueOf(getTotalCharge()) + "\n";
-        result += "You earned " + String.valueOf(getTotalFrequentRenterPoints()) + " frequent renter points";
+        _interceptor.before("statement in Customer");
+
+        int frequentRenterPoints = 0;
+        StringBuilder resultBuilder = new StringBuilder("Rental record for " + getName() + "\n");
+        for (Rental rental : _rentals) {
+            frequentRenterPoints += rental.getFrequentRenterPoints();
+
+            // show figures for this rental
+            resultBuilder.append("\t").append(rental.getMovie().getTitle()).append("\t").append(rental.getCharge()).append("\n");
+        }
+        String result = resultBuilder.toString();
+
+        // add footer lines
+        result += "Amount owed is " + getTotalCharge() + "\n";
+        result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
+
+        _interceptor.after("statement in Customer");
+
         return result;
     }
 
     public String htmlStatement() {
-        String result = "<h1>Rental record for <b>" + getName() + "</b></h1>\n";
-        for (Rental rental : rentals)
-            result += "<p>" + rental.getMovie().getTitle() + "\t" + String.valueOf(rental.getCharge()) + "</p>\n";
-        result += "<p>Amount owed is <b>" + String.valueOf(getTotalCharge()) + "</b></p>\n";
-        result += "<p>You earned <b>" + String.valueOf(getTotalFrequentRenterPoints()) + " frequent renter points</b></p>";
+        _interceptor.before("htmlStatement in Customer");
+
+        String result = "<H1>Rentals for <EM>" + getName() + "</EM></H1><P>\n";
+        for (Rental each : _rentals) {
+            //show figures for each rental
+            result += each.getMovie().getTitle() + ": " + each.getCharge() + "<BR>\n";
+        }
+        //add footer lines
+        result += "<P>You owe <EM>" + getTotalCharge() + "</EM><P>\n";
+        result += "On this rental you earned <EM>" + getTotalFrequentRenterPoints() + "</EM> frequent renter points<P>";
+
+        _interceptor.after("htmlStatement in Customer");
+
         return result;
-
-    }
-
-    private double getTotalCharge() {
-        double total = 0;
-        for (Rental rental : rentals)
-            total += rental.getCharge();
-        return total;
     }
 
     private int getTotalFrequentRenterPoints() {
-        int total = 0;
-        for (Rental rental : rentals)
-            total += rental.getFrequentRenterPoints();
-        return total;
+        _interceptor.before("getTotalFrequentRenterPoints in Customer");
+
+        int result = 0;
+        for (Rental each : _rentals) {
+            result += each.getFrequentRenterPoints();
+        }
+
+        _interceptor.after("getTotalFrequentRenterPoints in Customer");
+
+        return result;
     }
 
+    private double getTotalCharge() {
+        _interceptor.before("getTotalCharge in Customer");
+
+        double result = 0;
+        for (Rental each : _rentals) {
+            result += each.getCharge();
+        }
+
+        _interceptor.after("getTotalCharge in Customer");
+
+        return result;
+    }
 }

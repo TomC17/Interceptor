@@ -1,5 +1,6 @@
 package test.java.FowlerMovieSystemTest;
 
+import main.java.FowlerMovieSystem.Interceptor.Interceptor;
 import org.junit.jupiter.api.Test;
 import main.java.FowlerMovieSystem.Customer;
 import main.java.FowlerMovieSystem.Movie;
@@ -8,9 +9,23 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Tests {
 
+    Interceptor interceptor = new Interceptor() {
+        @Override
+        public void before(String method) {
+            System.out.println("Before " + method);
+
+        }
+
+        @Override
+        public void after(String method) {
+            System.out.println("After " + method);
+
+        }
+    };
+    Customer customer = new Customer("Tester", interceptor);
+
     @Test
     public void test() {
-        Customer customer = new Customer("Tester");
         customer.addRental(new Rental(new Movie("Movie1", Movie.REGULAR), 1));
         customer.addRental(new Rental(new Movie("Movie2", Movie.NEW_RELEASE), 2));
         customer.addRental(new Rental(new Movie("Movie3", Movie.NEW_RELEASE), 3));
