@@ -1,5 +1,8 @@
 package main.java.FowlerMovieSystem;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer {
 
     private String name;
