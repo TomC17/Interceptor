@@ -1,46 +1,61 @@
 package test.java.FowlerMovieSystemTest;
 
-import main.java.FowlerMovieSystem.Interceptor.Interceptor;
-import org.junit.jupiter.api.Test;
 import main.java.FowlerMovieSystem.Customer;
+import main.java.FowlerMovieSystem.Interceptor.ConsoleLoggingInterceptor;
+import main.java.FowlerMovieSystem.Interceptor.Interceptor;
 import main.java.FowlerMovieSystem.Movie;
 import main.java.FowlerMovieSystem.Rental;
+import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Tests {
-
+    ConsoleLoggingInterceptor consoleLoggingInterceptor = new ConsoleLoggingInterceptor();
     Interceptor interceptor = new Interceptor() {
         @Override
         public void before(String method) {
-            System.out.println("Before " + method);
-
+            consoleLoggingInterceptor.log("Before: " + method);
         }
 
         @Override
         public void after(String method) {
-            System.out.println("After " + method);
-
+            consoleLoggingInterceptor.log("After: " + method);
         }
     };
     Customer customer = new Customer("Tester", interceptor);
+    @Test
+    public void CustomerTest() {
+        Rental rental1 = new Rental(new Movie("REGULAR", Movie.REGULAR, consoleLoggingInterceptor), 1, consoleLoggingInterceptor);
+        customer.addRental(rental1);
+        Rental rental2 = new Rental(new Movie("NEW_RELEASE 1", Movie.NEW_RELEASE, consoleLoggingInterceptor), 2, consoleLoggingInterceptor);
+        customer.addRental(rental2);
+        Rental rental3 = new Rental(new Movie("NEW_RELEASE 2", Movie.NEW_RELEASE, consoleLoggingInterceptor), 3, consoleLoggingInterceptor);
+        customer.addRental(rental3);
+        Rental rental4 = new Rental(new Movie("CHILDREN", Movie.CHILDREN, consoleLoggingInterceptor), 4, consoleLoggingInterceptor);
+        customer.addRental(rental4);
+
+        String expected = """
+                Rental record for Tester
+                \tREGULAR\t2.0
+                \tNEW_RELEASE 1\t6.0
+                \tNEW_RELEASE 2\t9.0
+                \tCHILDREN\t3.0
+                Amount owed is 20.0
+                You earned 6 frequent renter points""";
+
+        assertEquals(expected, customer.statement());
+        System.out.println(customer.statement());
+    }
 
     @Test
-    public void test() {
-        customer.addRental(new Rental(new Movie("Movie1", Movie.REGULAR), 1));
-        customer.addRental(new Rental(new Movie("Movie2", Movie.NEW_RELEASE), 2));
-        customer.addRental(new Rental(new Movie("Movie3", Movie.NEW_RELEASE), 3));
-        customer.addRental(new Rental(new Movie("Movie4", Movie.CHILDREN), 4));
-
+    public void NoCustomersTest() {
         String expected = "" +
                 "Rental record for Tester\n" +
-                "\tMovie1\t2.0\n" +
-                "\tMovie2\t6.0\n" +
-                "\tMovie3\t9.0\n" +
-                "\tMovie4\t3.0\n" +
-                "Amount owed is 20.0\n" +
-                "You earned 6 frequent renter points";
+                "Amount owed is 0.0\n" +
+                "You earned 0 frequent renter points";
 
         assertEquals(expected, customer.statement());
         System.out.println(customer.statement());
     }
 }
+
