@@ -1,12 +1,9 @@
 package test.java.FowlerMovieSystemTest;
 
-
 import org.junit.jupiter.api.Test;
-
 import main.java.FowlerMovieSystem.Customer;
 import main.java.FowlerMovieSystem.Movie;
 import main.java.FowlerMovieSystem.Rental;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Tests {
