@@ -15,4 +15,6 @@ jobs:
           java-version: '11'
 
       - name: Build with Gradle
-        run: cd src && ./gradlew build
+        # the gradle.yml file is in the .github\workflows directory
+          # so we need to go back to the root directory
+        run: cd .. cd .github/workflows && gradle build
