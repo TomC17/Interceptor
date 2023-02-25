@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
-    private String _name;
     private final List<Rental> _rentals = new ArrayList<>();
+    private String _name;
 
     public Customer(String name) {
 
