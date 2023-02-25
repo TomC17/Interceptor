@@ -1,14 +1,24 @@
 package main.java.FowlerMovieSystem;
 
 public class ChildrensPrice extends Price {
+    double price = 1.5;
+
     int getPriceCode() {
         return Movie.CHILDREN;
     }
 
     public double getCharge(int daysRented) {
-        double amount = 1.5;
         if (daysRented > 3)
-            amount += (daysRented - 3) * 1.5;
-        return amount;
+            price += (daysRented - 3) * 1.5;
+        return price;
     }
+
+    @Override
+    public void setCharge(double price) {
+
+        this.price = price;
+
+    }
+
+
 }

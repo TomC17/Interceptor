@@ -1,32 +1,40 @@
 package main.java.FowlerMovieSystem;
 
-import main.java.FowlerMovieSystem.Interceptor.Interceptor;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class Customer {
-    private final String _name;
+    private String _name;
     private final List<Rental> _rentals = new ArrayList<>();
-    private final Interceptor _interceptor;
 
-    public Customer(String name, Interceptor interceptor) {
+    public Customer(String name) {
+
         _name = name;
-        _interceptor = interceptor;
+
+    }
+
+    public static Customer getCustomer() {
+        return new Customer("Customer");
     }
 
     public void addRental(Rental arg) {
-        _interceptor.before("addRental in Customer");
+        //before takes a context object, not a string
+
         _rentals.add(arg);
-        _interceptor.after("addRental in Customer");
+
     }
 
     public String getName() {
         return _name;
     }
 
+    public void setName(String name) {
+
+        _name = name;
+    }
+
     public String statement() {
-        _interceptor.before("statement in Customer");
+
 
         int frequentRenterPoints = 0;
         StringBuilder resultBuilder = new StringBuilder("Rental record for " + getName() + "\n");
@@ -42,13 +50,12 @@ public class Customer {
         result += "Amount owed is " + getTotalCharge() + "\n";
         result += "You earned " + getTotalFrequentRenterPoints() + " frequent renter points";
 
-        _interceptor.after("statement in Customer");
 
         return result;
     }
 
     public String htmlStatement() {
-        _interceptor.before("htmlStatement in Customer");
+
 
         String result = "<H1>Rentals for <EM>" + getName() + "</EM></H1><P>\n";
         for (Rental each : _rentals) {
@@ -59,34 +66,39 @@ public class Customer {
         result += "<P>You owe <EM>" + getTotalCharge() + "</EM><P>\n";
         result += "On this rental you earned <EM>" + getTotalFrequentRenterPoints() + "</EM> frequent renter points<P>";
 
-        _interceptor.after("htmlStatement in Customer");
 
         return result;
     }
 
-    private int getTotalFrequentRenterPoints() {
-        _interceptor.before("getTotalFrequentRenterPoints in Customer");
+    public int getTotalFrequentRenterPoints() {
+
 
         int result = 0;
         for (Rental each : _rentals) {
             result += each.getFrequentRenterPoints();
         }
 
-        _interceptor.after("getTotalFrequentRenterPoints in Customer");
 
         return result;
     }
 
-    private double getTotalCharge() {
-        _interceptor.before("getTotalCharge in Customer");
+    public double getTotalCharge() {
+
 
         double result = 0;
         for (Rental each : _rentals) {
             result += each.getCharge();
         }
 
-        _interceptor.after("getTotalCharge in Customer");
 
         return result;
+    }
+
+    public List<Rental> getRentals() {
+        return _rentals;
+    }
+
+    public int getRentalsAmount() {
+        return _rentals.size();
     }
 }

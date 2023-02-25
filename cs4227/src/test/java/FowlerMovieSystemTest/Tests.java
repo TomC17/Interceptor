@@ -11,27 +11,32 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class Tests {
     ConsoleLoggingInterceptor consoleLoggingInterceptor = new ConsoleLoggingInterceptor();
-    Interceptor interceptor = new Interceptor() {
-        @Override
-        public void before(String method) {
-            consoleLoggingInterceptor.log("Before: " + method);
-        }
+    Interceptor[] interceptors = {consoleLoggingInterceptor};
 
-        @Override
-        public void after(String method) {
-            consoleLoggingInterceptor.log("After: " + method);
-        }
-    };
-    Customer customer = new Customer("Tester", interceptor);
+
+
+    Customer customer = new Customer("Tester");
     @Test
     public void CustomerTest() {
-        Rental rental1 = new Rental(new Movie("REGULAR", Movie.REGULAR, consoleLoggingInterceptor), 1, consoleLoggingInterceptor);
+        Rental rental1 = new Rental(
+                new Movie("REGULAR", Movie.REGULAR),
+                1
+        );
         customer.addRental(rental1);
-        Rental rental2 = new Rental(new Movie("NEW_RELEASE 1", Movie.NEW_RELEASE, consoleLoggingInterceptor), 2, consoleLoggingInterceptor);
+        Rental rental2 = new Rental(
+                new Movie("NEW_RELEASE 1", Movie.NEW_RELEASE),
+                2
+        );
         customer.addRental(rental2);
-        Rental rental3 = new Rental(new Movie("NEW_RELEASE 2", Movie.NEW_RELEASE, consoleLoggingInterceptor), 3, consoleLoggingInterceptor);
+        Rental rental3 = new Rental(
+                new Movie("NEW_RELEASE 2", Movie.NEW_RELEASE),
+                3
+        );
         customer.addRental(rental3);
-        Rental rental4 = new Rental(new Movie("CHILDREN", Movie.CHILDREN, consoleLoggingInterceptor), 4, consoleLoggingInterceptor);
+        Rental rental4 = new Rental(
+                new Movie("CHILDREN", Movie.CHILDREN),
+                4
+        );
         customer.addRental(rental4);
 
         String expected = """

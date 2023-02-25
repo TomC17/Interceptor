@@ -1,7 +1,7 @@
 package main.java.FowlerMovieSystem.Interceptor;
 
-public interface Interceptor {
-    void before(String method);
+import main.java.FowlerMovieSystem.Context.CustomerContext;
 
-    void after(String method);
+public interface Interceptor {
+    void intercept(CustomerContext context);
 }

@@ -1,7 +1,5 @@
 package main.java.FowlerMovieSystem;
 
-import main.java.FowlerMovieSystem.Interceptor.ConsoleLoggingInterceptor;
-
 public class Movie {
 
     public static final int REGULAR = 0;
@@ -9,12 +7,10 @@ public class Movie {
     public static final int CHILDREN = 2;
 
     private final String _title;
-    private final ConsoleLoggingInterceptor _loggingInterceptor;
     private Price _price;
 
-    public Movie(String title, int priceCode, ConsoleLoggingInterceptor loggingInterceptor) {
+    public Movie(String title, int priceCode) {
         _title = title;
-        _loggingInterceptor = loggingInterceptor;
         setPriceCode(priceCode);
     }
 
@@ -27,7 +23,6 @@ public class Movie {
     }
 
     public void setPriceCode(int arg) {
-        log("Calling setPriceCode on Movie from Movie: " + _title + " with arg: " + arg + "");
         switch (arg) {
             case REGULAR -> _price = new RegularPrice();
             case CHILDREN -> _price = new ChildrensPrice();
@@ -37,20 +32,12 @@ public class Movie {
     }
 
 
-
     public double getCharge(int daysRented) {
-        log("Calling getCharge on Movie from Movie: " + _title + " with arg: " + daysRented + "");
         return _price.getCharge(daysRented);
     }
 
     public int getFrequentRenterPoints(int daysRented) {
-        log("Calling getFrequentRenterPoints on Movie from Movie: " + _title + " with arg: " + daysRented + "");
         return _price.getFrequentRenterPoints(daysRented);
     }
 
-    private void log(String message) {
-        if (_loggingInterceptor != null) {
-            _loggingInterceptor.log(message);
-        }
-    }
 }
