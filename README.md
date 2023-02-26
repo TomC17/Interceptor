@@ -1,2 +1,2 @@
-# CS4227 Interceptor Project
+# Interceptor Project
  
