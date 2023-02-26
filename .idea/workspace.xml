@@ -6,9 +6,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fbb63fe5-1b80-4370-bddf-e91d2677f613" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FowlerMovieSystem/Application.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FowlerMovieSystem/Application.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FowlerMovieSystem/Customer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FowlerMovieSystem/Customer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/FowlerMovieSystem/Dispatcher/Dispatcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/FowlerMovieSystem/Dispatcher/Dispatcher.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -88,7 +85,7 @@
       <option name="presentableId" value="Default" />
       <updated>1677358888434</updated>
       <workItem from="1677358891405" duration="1412000" />
-      <workItem from="1677441985138" duration="1178000" />
+      <workItem from="1677441985138" duration="4921000" />
     </task>
     <servers />
   </component>
