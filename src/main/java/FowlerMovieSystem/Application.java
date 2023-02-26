@@ -11,7 +11,13 @@ public class Application {
     public static void main(String[] args) {
         //Have a customer rent a new release movie
         Customer customer = new Customer("John Doe");
-        CustomerContext context = new CustomerContext(customer);
+
+        Dispatcher dispatcher = Dispatcher.getInstance();
+
+        //Create and register interceptor
+        Interceptor consoleLoggingInterceptor = new ConsoleLoggingInterceptor();
+        dispatcher.registerInterceptor(consoleLoggingInterceptor);
+
         customer.addRental(new Rental(new Movie("The Matrix", NEW_RELEASE), 3));
         customer.addRental(new Rental(new Movie("The Godfather", REGULAR), 2));
         customer.addRental(new Rental(new Movie("The Godfather Part II", REGULAR), 1));
@@ -19,17 +25,6 @@ public class Application {
         customer.addRental(new Rental(new Movie("The Shawshank Redemption", REGULAR), 2));
         customer.addRental(new Rental(new Movie("The Lion King", CHILDREN), 3));
 
-        //Create a dispatcher
-        Dispatcher dispatcher = new Dispatcher();
-
-        //Create and register interceptor
-        Interceptor consoleLoggingInterceptor = new ConsoleLoggingInterceptor();
-        dispatcher.registerInterceptor(consoleLoggingInterceptor);
-
-        //trigger the dispatch
-        dispatcher.dispatch(context);
-
-        //remove interceptor
-        dispatcher.removeInterceptor(consoleLoggingInterceptor);
+        customer.setName("Nathan Drake");
     }
 }

@@ -10,6 +10,15 @@ public class Dispatcher {
 
     private final List<Interceptor> interceptors;
 
+    private static Dispatcher instance;
+
+    public static Dispatcher getInstance() {
+        if (instance == null) {
+            instance = new Dispatcher();
+        }
+        return instance;
+    }
+
     public Dispatcher() {
         interceptors = new ArrayList<>();
     }
